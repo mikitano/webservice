@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 16:16:07 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/07 01:19:28 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/09 14:34:45 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define CONFIG_HPP
 
 #include <vector>
-#include "config/model/ServerConfig.hpp"
+#include "ServerConfig.hpp"
 
 class Config {
 	private:
@@ -22,8 +22,8 @@ class Config {
 
 	public:
 		Config();
-		// Config(const Config& copy);
-		// Config& operator=(const Config& rhs);
+		Config(const Config& copy);
+		Config& operator=(const Config& rhs);
 		~Config();
 
 		const std::vector<ServerConfig>& getServers() const;

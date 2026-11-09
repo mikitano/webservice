@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 00:54:37 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/09 01:34:59 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/09 17:03:47 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class LocationConfig
 		std::string							_root;
 		std::vector<std::string>			_index;
 		std::vector<std::string>			_allowedMethods;
+		// bool								_isMethodAllowed;
 		bool								_autoindex;
 		std::string							_uploadStore;
 		std::map<std::string, std::string>	_cgi;
@@ -34,9 +35,12 @@ class LocationConfig
 
 	public:
 		LocationConfig();
-		// LocationConfig(const LocationConfig& copy);
-		// LocationConfig& operator= (const LocationConfig& rhs);
+		LocationConfig(const LocationConfig& copy);
+		LocationConfig& operator= (const LocationConfig& rhs);
 		~LocationConfig();
+
+		// bool isMethodAllowed(const std::string& method) const;
+		bool hasReturn() const;
 
 		const std::string& getPath() const;
 		const std::string& getRoot() const;
@@ -45,11 +49,9 @@ class LocationConfig
 		bool getAutoindex() const;
 		const std::string& getUploadStore() const;
 		const std::map<std::string, std::string>& getCgi() const;
-
-		bool hasReturn() const;
 		int getReturnCode() const;
 		const std::string& getReturnUrl() const;
-
+			
 		void setPath(const std::string& path);
 		void setRoot(const std::string& root);
 		void setAutoindex(bool autoindex);
