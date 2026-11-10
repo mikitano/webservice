@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   LocationConfig.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 14:44:50 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/09 17:06:47 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/10 22:30:27 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 LocationConfig::LocationConfig()
 	: _autoindex(false),
-	//   _isMethodAllowed(false),
 	  _hasReturn(false),
 	  _returnCode(0) {}
 
@@ -33,7 +32,6 @@ LocationConfig& LocationConfig::operator=(const LocationConfig& rhs)
 		_root = rhs._root;
 		_index = rhs._index;
 		_allowedMethods = rhs._allowedMethods;
-		// _isMethodAllowed = rhs._isMethodAllowed;
 		_autoindex = rhs._autoindex;
 		_uploadStore = rhs._uploadStore;
 		_cgi = rhs._cgi;
@@ -46,15 +44,15 @@ LocationConfig& LocationConfig::operator=(const LocationConfig& rhs)
 
 LocationConfig::~LocationConfig() {}
 
-// bool LocationConfig::isMethodAllowed(const std::string& method) const
-// {
-// 	for (std::size_t i = 0; i < _allowedMethods.size(); i++)
-// 	{
-// 		if (_allowedMethods[i] == method)
-// 			return true;
-// 	}
-// 	return false;
-// }
+bool LocationConfig::isMethodAllowed(const std::string& method) const
+{
+	for (std::size_t i = 0; i < _allowedMethods.size(); i++)
+	{
+		if (_allowedMethods[i] == method)
+			return true;
+	}
+	return false;
+}
 
 bool LocationConfig::hasReturn() const
 {
@@ -146,7 +144,6 @@ void LocationConfig::addIndex(const std::string& index)
 
 void LocationConfig::addAllowedMethod(const std::string& method)
 {
-	// _isMethodAllowed = true;
 	_allowedMethods.push_back(method);
 }
 

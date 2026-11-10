@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 14:44:50 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/09 17:13:05 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/09 22:14:30 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ LocationConfig& LocationConfig::operator=(const LocationConfig& rhs)
 
 LocationConfig::~LocationConfig() {}
 
-// bool LocationConfig::isMethodAllowed(const std::string& method) const
-// {
-// 	for (std::size_t i = 0; i < _allowedMethods.size(); i++)
-// 	{
-// 		if (_allowedMethods[i] == method)
-// 			return true;
-// 	}
-// 	return false;
-// }
+bool LocationConfig::isMethodAllowed(const std::string& method) const
+{
+	for (std::size_t i = 0; i < _allowedMethods.size(); i++)
+	{
+		if (_allowedMethods[i] == method)
+			return true;
+	}
+	return false;
+}
 
 bool LocationConfig::hasReturn() const
 {

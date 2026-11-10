@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 00:54:37 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/09 17:03:47 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/09 22:14:43 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class LocationConfig
 		LocationConfig& operator= (const LocationConfig& rhs);
 		~LocationConfig();
 
-		// bool isMethodAllowed(const std::string& method) const;
+		bool isMethodAllowed(const std::string& method) const;
 		bool hasReturn() const;
 
 		const std::string& getPath() const;

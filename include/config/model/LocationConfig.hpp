@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   LocationConfig.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 00:54:37 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/09 17:03:47 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/10 22:30:01 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ class LocationConfig
 		std::string							_root;
 		std::vector<std::string>			_index;
 		std::vector<std::string>			_allowedMethods;
-		// bool								_isMethodAllowed;
 		bool								_autoindex;
 		std::string							_uploadStore;
 		std::map<std::string, std::string>	_cgi;
@@ -39,7 +38,7 @@ class LocationConfig
 		LocationConfig& operator= (const LocationConfig& rhs);
 		~LocationConfig();
 
-		// bool isMethodAllowed(const std::string& method) const;
+		bool isMethodAllowed(const std::string& method) const;
 		bool hasReturn() const;
 
 		const std::string& getPath() const;
