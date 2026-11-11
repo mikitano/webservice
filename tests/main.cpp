@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 16:55:09 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/10 22:29:49 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/11 03:41:41 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,20 @@ int main()
 
     std::cout << "Copy allows DELETE: "
             << another.isMethodAllowed("DELETE") << std::endl;
+
+    return (0);
+}
+
+#include "config/model/ServerConfig.hpp"
+#include <iostream>
+
+int main()
+{
+    ServerConfig server;
+
+    std::cout << "Port: " << server.getPort() << std::endl;
+    std::cout << "Body size: "
+              << server.getClientMaxBodySize() << std::endl;
 
     return (0);
 }

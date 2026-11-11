@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerConfig.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 16:23:31 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/09 14:34:33 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/11 00:55:20 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class ServerConfig {
 	private:
 		int							_port;
 		std::vector<std::string>	_serverNames;
-		std::size_t						_clientMaxBodySize;
+		std::size_t					_clientMaxBodySize;
 		std::map<int, std::string>	_errorPages;
 		std::vector<LocationConfig>	_locations;
 
