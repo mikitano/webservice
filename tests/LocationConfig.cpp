@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 14:44:50 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/09 22:14:30 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/11 18:30:30 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 LocationConfig::LocationConfig()
 	: _autoindex(false),
-	//   _isMethodAllowed(false),
 	  _hasReturn(false),
 	  _returnCode(0) {}
 
@@ -33,7 +32,6 @@ LocationConfig& LocationConfig::operator=(const LocationConfig& rhs)
 		_root = rhs._root;
 		_index = rhs._index;
 		_allowedMethods = rhs._allowedMethods;
-		// _isMethodAllowed = rhs._isMethodAllowed;
 		_autoindex = rhs._autoindex;
 		_uploadStore = rhs._uploadStore;
 		_cgi = rhs._cgi;
@@ -146,7 +144,6 @@ void LocationConfig::addIndex(const std::string& index)
 
 void LocationConfig::addAllowedMethod(const std::string& method)
 {
-	// _isMethodAllowed = true;
 	_allowedMethods.push_back(method);
 }
 

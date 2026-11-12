@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 14:44:59 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/11 03:48:27 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/11 22:32:25 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,30 @@ const std::vector<LocationConfig>& ServerConfig::getLocations() const
 }
 
 // setters
+
+void ServerConfig::setPort(int port)
+{
+	_port = port;
+}
+
+void ServerConfig::setClientMaxBodySize(std::size_t size)
+{
+	_clientMaxBodySize = size;
+}
+
+// adders
+
+void ServerConfig::addServerName(const std::string& name)
+{
+	_serverNames.push_back(name);
+}
+
+void ServerConfig::addErrorPage(int code, const std::string& path)
+{
+	_errorPages[code] = path;
+}
+
+void ServerConfig::addLocation(const LocationConfig& location)
+{
+	_locations.push_back(location);
+}
