@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 14:44:54 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/12 02:56:23 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/13 03:37:05 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ Config& Config::operator=(const Config& rhs)
 	}
 	return (*this);
 }
+
+Config::~Config() {}
 
 // getters
 
