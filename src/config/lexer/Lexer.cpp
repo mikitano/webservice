@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 12:16:50 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/14 21:18:56 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/14 21:29:00 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,3 +171,5 @@ std::vector<Token> Lexer::tokenize(const std::string& content)
 	flushToken();
 	return (_tokens);
 }
+
+//ATENCÃO: Revisar casos adicionais de aspas e caracteres especiais
