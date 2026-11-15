@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   LocationConfig.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/07 00:54:37 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/10 22:30:01 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/14 18:37:47 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 #include <string>
 #include <vector>
 
-class LocationConfig
-{
+class LocationConfig {
 	private:
 		std::string							_path;
 		std::string							_root;
