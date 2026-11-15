@@ -1,0 +1,100 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: namatias <namatias@student.42sp.org.br>    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/11/14 10:57:02 by namatias          #+#    #+#              #
+#    Updated: 2026/11/15 00:47:27 by namatias         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+################################################################################
+#                       FLAGS AND VARIABLES TO COMPILE                         #
+################################################################################
+
+NAME	= webserv
+
+CPP			= c++
+CPPFLAGS	= -Wall -Wextra -Werror -std=c++98 -MMD -MP
+
+OBJ_DIR = ./obj/
+INC_DIR = ./include/
+SRC_DIR = ./src/
+
+INCLUDES = -I$(INC_DIR)
+
+SRC_FILES = 	main.cpp \
+				network/SocketServer.cpp \
+				utils/Logger.cpp \
+				utils/Utils.cpp \
+
+SRCS 		= $(addprefix $(SRC_DIR), $(SRC_FILES))
+OBJS		= $(addprefix $(OBJ_DIR), $(SRC_FILES:.cpp=.o))
+
+ARGS		= $(PORT1) $(PORT2)
+PORT1		= 4242
+PORT2		= 4243
+
+################################################################################
+#                       TESTES DAS CLASSES (src/tests/)                        #
+################################################################################
+# make test_loop    -> testa só o LoopingEvent   (./test_loop)
+
+TEST_LOOP		= test_loop
+
+OBJS_TEST_LOOP	= $(OBJ_DIR)tests/test_loopingevent.o \
+						$(OBJ_DIR)network/LoopingEvent.o \
+						$(OBJ_DIR)utils/Logger.o
+
+DEPS		= $(OBJS:.o=.d) $(OBJS_TEST_LOOP:.o=.d)
+
+################################################################################
+#                                   COLORS                                     #
+################################################################################
+
+GREEN = \033[0;32m
+RESET = \033[0m
+
+################################################################################
+#                                 Functions                                    #
+################################################################################
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	@$(CPP) $(CPPFLAGS) $(OBJS) -o $(NAME)
+	@echo "[$(GREEN)OK$(RESET)] $(NAME) COMPILED!"
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
+	@mkdir -p $(dir $@)
+	@$(CPP) $(CPPFLAGS) $(INCLUDES) -c $< -o $@
+	@echo "[$(GREEN)OK$(RESET)] OBJS COMPILED $<"
+
+$(TEST_LOOP): $(OBJS_TEST_LOOP)
+	@$(CPP) $(CPPFLAGS) $(OBJS_TEST_LOOP) -o $(TEST_LOOP)
+	@echo "[$(GREEN)OK$(RESET)] $(TEST_LOOP) COMPILED! Rode: ./$(TEST_LOOP)"
+
+clean:
+	@rm -rf $(OBJ_DIR)
+	@echo "[$(GREEN)OK$(RESET)] FILES CLEAR!"
+
+fclean: clean
+	@rm -f $(NAME) $(TEST_LOOP) $(TEST_CLIENT) $(TEST_SERVER)
+	@echo "[$(GREEN)OK$(RESET)] ALL CLEAR!"
+
+re: fclean all
+
+val: re
+	@valgrind 	--leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				--track-fds=yes \
+				--trace-children=yes \
+				./${NAME} ${ARGS}
+
+# Recompila os .o quando um .hpp mudar (arquivos .d gerados por -MMD)
+-include $(DEPS)
+
+.PHONY: all clean fclean re val
