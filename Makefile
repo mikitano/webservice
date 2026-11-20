@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    MAKEFILE                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/18 21:08:56 by mkitano           #+#    #+#              #
-#    Updated: 2026/11/19 04:07:38 by mkitano          ###   ########.fr        #
+#    Updated: 2026/11/20 01:47:21 by mkitano          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,9 +30,11 @@ SRC_MODEL = $(addsuffix .cpp, Config LocationConfig ServerConfig)
 #SRC_PARSER = $(addsuffix .cpp, Parser LocationParser ServerParse)
 
 SRC = \
-    $(addprefix $(SRC_DIR)/config/lexer/, $(SRC_LEXER)) \
-    $(addprefix $(SRC_DIR)/config/model/, $(SRC_MODEL)) \
-    $(addprefix $(SRC_DIR)/config/parser/, $(SRC_PARSER))
+	$(addprefix $(SRC_DIR)/, $(SRC_MAIN)) \
+	$(addprefix $(SRC_DIR)/config/lexer/, $(SRC_LEXER)) \
+	$(addprefix $(SRC_DIR)/config/model/, $(SRC_MODEL)) \
+	$(addprefix $(SRC_DIR)/config/parser/, $(SRC_PARSER)) \
+
 
 # Object files
 OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC))
@@ -41,13 +43,16 @@ OBJ = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC))
 DEP = $(OBJ:.o=.d)
 
 # Main target (temporary: compile production modules)
-all: $(OBJ)
-	@echo "[\033[0;32mAll production modules compiled successfully!\033[0m]"
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
+	@echo "\033[0;32mWebserv compiled successfully!\033[0m"
 
 # Compile source files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
-	@echo "\033[0;33mCompiling: $<\033[0m]"
+	@echo "\033[0;33mCompiling: $<\033[0m"
 	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(DEPFLAGS) -c $< -o $@
 
 # Include header dependencies
