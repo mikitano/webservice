@@ -6,7 +6,7 @@
 /*   By: namatias <namatias@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 17:51:53 by namatias          #+#    #+#             */
-/*   Updated: 2026/11/15 00:31:44 by namatias         ###   ########.fr       */
+/*   Updated: 2026/11/21 15:48:11 by namatias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	LoopingEvent::addFdPoll(int fd)
 	** Verificamos se esse fd é de algum cliente/processo que ja foi add ao poll
 	*/
 	if (findIndex(fd) >= 0)
-		return;	
+		return;
 
 	/*
 	** Struc pollfd construida pela biblioteca poll.h
@@ -51,9 +51,9 @@ void	LoopingEvent::removeFd(int fd)
 	*/
 	if (findIndex(fd) >= 0)
 		_pollFds.erase(_pollFds.begin() + findIndex(fd));
-	
+
 	/*
-	** Tambem retiramos da lista de Fds que estavam aguardo uma açao
+	** Tambem retiramos da lista de Fds que estavam aguardando uma açao
 	*/
 	for (size_t i = 0; i < _ready.size(); i++)
 	{
@@ -77,6 +77,14 @@ void	LoopingEvent::setPollIn(int fd, bool enable)
 		return ;
 	}
 
+	/*
+	** Operador bit a bit (bitwise)
+	** os operadores usados nesse passo ligam ou desligam um bit do campo events
+	** sem mexer nos outros.
+	** _pollFds[index].events -> local onde nossa flag de evento fica armazenada
+	** |= representa OR -> liga o POLLIN
+	** &= ~(AND + NOT) desliga o POLLIN
+	*/
 	if (enable)
 		_pollFds[findIndex(fd)].events |= POLLIN;
 	else
@@ -94,7 +102,7 @@ void	LoopingEvent::setPollOut(int fd, bool enable)
 		Logger::log(Logger::DEBUG, "setPollOut: failed to find fd");
 		return ;
 	}
-	
+
 	if (enable)
 		_pollFds[findIndex(fd)].events |= POLLOUT;
 	else
@@ -117,9 +125,9 @@ size_t	LoopingEvent::size(void) const
 /*
 ** Toda vez que a varredura ocorre é formada uma nova lista _ready
 ** _ready é atualizado constantemente com os FDs prontos para ler/escrever
-** 
+**
 ** O poll calcula sozinha se o timeoutMs foi atingido, "acorda" e roda novamente
-** 
+**
 ** Caso ocorra algum evento o poll tbm acorda ainda q o tempo n tenha sido atingido
 ** Retornos
 ** 		-1 interrompido por sinal
@@ -143,13 +151,13 @@ int	LoopingEvent::wait(int timeoutMs)
 	int result = poll(&_pollFds[0], _pollFds.size(), timeoutMs);
 	if (result < 0)
 		return (-1);
-	
+
 	for (size_t i = 0; i < _pollFds.size(); i++)
 	{
 		short reventPoll = _pollFds[i].revents;
 		if (reventPoll == 0)
 			continue ;
-		
+
 		/*
 		** (reventPoll & MACRO) faz um betwise entre os 2  comparando os valores
 		** equivalente a um == , porem como pode vir mais de um macro no revent precisamos usar bitwise
