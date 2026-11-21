@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkitano <mkitano@student.42sp.org.br>      +#+  +:+       +#+         #
+#    By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/18 21:08:56 by mkitano           #+#    #+#              #
-#    Updated: 2026/11/20 01:47:21 by mkitano          ###   ########.fr        #
+#    Updated: 2026/11/21 10:50:47 by mkitano          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ INC_DIR = include
 SRC_MAIN = $(addsuffix .cpp, main)
 SRC_LEXER = $(addsuffix .cpp, Lexer Token)
 SRC_MODEL = $(addsuffix .cpp, Config LocationConfig ServerConfig)
+SRC_PARSER = $(addsuffix .cpp, Parser)
 #SRC_PARSER = $(addsuffix .cpp, Parser LocationParser ServerParse)
 
 SRC = \
