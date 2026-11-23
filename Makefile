@@ -6,7 +6,7 @@
 #    By: namatias <namatias@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/14 10:57:02 by namatias          #+#    #+#              #
-#    Updated: 2026/11/15 01:20:41 by namatias         ###   ########.fr        #
+#    Updated: 2026/11/23 11:59:57 by namatias         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,12 +41,22 @@ PORT2		= 4243
 #                       TESTES DAS CLASSES (src/tests/)                        #
 ################################################################################
 # make test_loop    -> testa só o LoopingEvent   (./test_loop)
+# make test_client  -> testa só o Client         (./test_client)
 
 TEST_LOOP		= test_loop
+TEST_CLIENT		= test_client
 
 OBJS_TEST_LOOP	= $(OBJ_DIR)tests/test_loopingevent.o \
 						$(OBJ_DIR)network/LoopingEvent.o \
 						$(OBJ_DIR)utils/Logger.o
+
+OBJS_TEST_CLIENT	= $(OBJ_DIR)tests/test_client.o \
+							$(OBJ_DIR)network/Client.o \
+							$(OBJ_DIR)network/ClientInfo.o \
+							$(OBJ_DIR)network/SocketServer.o \
+							$(OBJ_DIR)utils/Utils.o \
+							$(OBJ_DIR)utils/Logger.o
+
 
 DEPS		= $(OBJS:.o=.d) $(OBJS_TEST_LOOP:.o=.d)
 
@@ -75,6 +85,10 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 $(TEST_LOOP): $(OBJS_TEST_LOOP)
 	@$(CPP) $(CPPFLAGS) $(OBJS_TEST_LOOP) -o $(TEST_LOOP)
 	@echo "[$(GREEN)OK$(RESET)] $(TEST_LOOP) COMPILED! Rode: ./$(TEST_LOOP)"
+
+$(TEST_CLIENT): $(OBJS_TEST_CLIENT)
+	@$(CPP) $(CPPFLAGS) $(OBJS_TEST_CLIENT) -o $(TEST_CLIENT)
+	@echo "[$(GREEN)OK$(RESET)] $(TEST_CLIENT) COMPILED! Rode: ./$(TEST_CLIENT)"
 
 clean:
 	@rm -rf $(OBJ_DIR)
