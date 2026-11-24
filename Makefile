@@ -6,7 +6,7 @@
 #    By: namatias <namatias@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/14 10:57:02 by namatias          #+#    #+#              #
-#    Updated: 2026/11/23 11:59:57 by namatias         ###   ########.fr        #
+#    Updated: 2026/11/23 21:25:35 by namatias         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,9 +42,11 @@ PORT2		= 4243
 ################################################################################
 # make test_loop    -> testa só o LoopingEvent   (./test_loop)
 # make test_client  -> testa só o Client         (./test_client)
+# make test_server  -> roda o Server com config mock (./test_server 4242 4243)
 
 TEST_LOOP		= test_loop
 TEST_CLIENT		= test_client
+TEST_SERVER		= test_server
 
 OBJS_TEST_LOOP	= $(OBJ_DIR)tests/test_loopingevent.o \
 						$(OBJ_DIR)network/LoopingEvent.o \
@@ -57,8 +59,19 @@ OBJS_TEST_CLIENT	= $(OBJ_DIR)tests/test_client.o \
 							$(OBJ_DIR)utils/Utils.o \
 							$(OBJ_DIR)utils/Logger.o
 
+OBJS_TEST_SERVER	= $(OBJ_DIR)tests/test_server.o \
+							$(OBJ_DIR)network/Server.o \
+							$(OBJ_DIR)network/LoopingEvent.o \
+							$(OBJ_DIR)network/Client.o \
+							$(OBJ_DIR)network/ClientInfo.o \
+							$(OBJ_DIR)network/SocketServer.o \
+							$(OBJ_DIR)utils/Logger.o \
+							$(OBJ_DIR)utils/Utils.o \
+							$(OBJ_DIR)config/model/Config.o \
+							$(OBJ_DIR)config/model/ServerConfig.o \
+							$(OBJ_DIR)config/model/LocationConfig.o \
 
-DEPS		= $(OBJS:.o=.d) $(OBJS_TEST_LOOP:.o=.d)
+DEPS		= $(OBJS:.o=.d) $(OBJS_TEST_LOOP:.o=.d) $(OBJS_TEST_CLIENT:.o=.d) $(OBJS_TEST_SERVER:.o=.d)
 
 ################################################################################
 #                                   COLORS                                     #
@@ -90,6 +103,10 @@ $(TEST_CLIENT): $(OBJS_TEST_CLIENT)
 	@$(CPP) $(CPPFLAGS) $(OBJS_TEST_CLIENT) -o $(TEST_CLIENT)
 	@echo "[$(GREEN)OK$(RESET)] $(TEST_CLIENT) COMPILED! Rode: ./$(TEST_CLIENT)"
 
+$(TEST_SERVER): $(OBJS_TEST_SERVER)
+	@$(CPP) $(CPPFLAGS) $(OBJS_TEST_SERVER) -o $(TEST_SERVER)
+	@echo "[$(GREEN)OK$(RESET)] $(TEST_SERVER) COMPILED! Rode: ./$(TEST_SERVER)"
+
 clean:
 	@rm -rf $(OBJ_DIR)
 	@echo "[$(GREEN)OK$(RESET)] FILES CLEAR!"
@@ -107,6 +124,9 @@ val: re
 				--track-fds=yes \
 				--trace-children=yes \
 				./${NAME} ${ARGS}
+
+# Copiar e colar no terminal para testes de valgrind personal
+# valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes
 
 # Recompila os .o quando um .hpp mudar (arquivos .d gerados por -MMD)
 -include $(DEPS)
