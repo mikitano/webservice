@@ -6,7 +6,7 @@
 /*   By: namatias <namatias@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 17:51:53 by namatias          #+#    #+#             */
-/*   Updated: 2026/11/21 15:48:11 by namatias         ###   ########.fr       */
+/*   Updated: 2026/11/24 21:08:47 by namatias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ size_t	LoopingEvent::size(void) const
 ** Caso ocorra algum evento o poll tbm acorda ainda q o tempo n tenha sido atingido
 ** Retornos
 ** 		-1 interrompido por sinal
-**		0 tudo OK, retorno esperado
+**		0 timeout, nenhum fd pronto!!
+**		>0 o int vai indicar quantos fds estao prontos aguardando uma ação 
 **		Mesmo se >0 pode dar 3 erros possiveis, por isso temos q testar TODOS os result dos fds
 **
 ** SE td estiver ok, vamos preencher o FdEvent com os resultados (indice por indice)
@@ -148,6 +149,9 @@ int	LoopingEvent::wait(int timeoutMs)
 {
 	_ready.clear();
 
+	if (_pollFds.empty())
+		return (0);
+
 	int result = poll(&_pollFds[0], _pollFds.size(), timeoutMs);
 	if (result < 0)
 		return (-1);
@@ -160,9 +164,10 @@ int	LoopingEvent::wait(int timeoutMs)
 
 		/*
 		** (reventPoll & MACRO) faz um betwise entre os 2  comparando os valores
-		** equivalente a um == , porem como pode vir mais de um macro no revent precisamos usar bitwise
+		** equivalente a um == , porem como pode vir mais de um macro no revent precisamos usar &
 		**
 		** a comparaçap com != 0 , faz o resultado final ser 0 ou 1 (true ou false)
+		** os erros serão checados apenas no looping do server, ao percorrer o _ready
 		*/
 		FdEvent eventPoll;
 		eventPoll._fd = _pollFds[i].fd;
@@ -184,7 +189,7 @@ int	LoopingEvent::findIndex(int fd) const
 	return (-1);
 }
 
-const std::vector<LoopingEvent::FdEvent>&	LoopingEvent::getReady() const
+const std::vector<LoopingEvent::FdEvent>	LoopingEvent::getReady() const
 {
 	return (_ready);
 }

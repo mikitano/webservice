@@ -34,7 +34,7 @@ class LoopingEvent
 		size_t	size(void) const;
 		
 		int							wait(int timeoutMs);
-		const std::vector<FdEvent>&	getReady(void) const;
+		const std::vector<FdEvent>	getReady(void) const;
 
 		LoopingEvent();
 		~LoopingEvent();
