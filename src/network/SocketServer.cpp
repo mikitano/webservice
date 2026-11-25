@@ -17,7 +17,6 @@
 #include <cstring>        // memset, strerror
 #include <stdexcept>      // std::runtime_error
 #include <unistd.h>       // close
-#include <fcntl.h>        // fcntl
 #include <cerrno>		  // errno
 #include <sys/socket.h>   // socket, bind, listen, setsockopt
 #include <netinet/in.h>   // sockaddr_in, htons, htonl
@@ -47,8 +46,11 @@ void	SocketServer::initSocket()
 		throw std::runtime_error("Socket: failed to create socket");
 	Logger::log(Logger::DEBUG, "Socket created. fd = " + Utils::itoa(this->getFdSocket()));
 	
-	if (!setReuseAddr(this->_fdSocket) | !setNonBlocking(this->_fdSocket)| !setCloexec(this->_fdSocket))
+	if (!Utils::setReuseAddr(this->_fdSocket) || !Utils::setNonBlocking(this->_fdSocket)
+		|| !Utils::setCloexec(this->_fdSocket))
+	{
 		throw std::runtime_error("Socket failed: " + std::string(std::strerror(errno)));
+	}
 	Logger::log(Logger::DEBUG, "Socket options and descriptor flags configured successfully");
 	
 	struct sockaddr_in myAddr;
@@ -68,38 +70,6 @@ void	SocketServer::initSocket()
 
 	Logger::log(Logger::SERVER, "Listening on *:" + Utils::itoa(this->getPortSocket()));
 	Logger::log(Logger::SERVER, "Local test: http://127.0.0.1:" + Utils::itoa(this->getPortSocket()));
-}
-
-/*
-** Helpers de status
-*/
-bool	SocketServer::setCloexec(int fdSocket)
-{
-	if (fcntl(fdSocket, F_SETFD, FD_CLOEXEC) < 0)
-		return (false);
-	return (true);
-}
-
-bool	SocketServer::setNonBlocking(int fdSocket)
-{
-	int flags = 1;
-
-	flags = fcntl(fdSocket, F_GETFL, 0);
-	if (flags < 0)
-		return (false);
-
-	if (fcntl(fdSocket, F_SETFL, flags | O_NONBLOCK) < 0)
-		return (false);
-	return (true);
-}
-
-bool	SocketServer::setReuseAddr(int fdSocket)
-{
-	int success = 1;
-
-	if (setsockopt(fdSocket, SOL_SOCKET, SO_REUSEADDR, &success, sizeof success) < 0)
-		return (false);
-	return (true);
 }
 
 /*

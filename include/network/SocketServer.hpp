@@ -6,7 +6,7 @@
 /*   By: namatias <namatias@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 11:31:01 by namatias          #+#    #+#             */
-/*   Updated: 2026/11/14 10:52:11 by namatias         ###   ########.fr       */
+/*   Updated: 2026/11/24 21:40:12 by namatias         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,11 @@ class SocketServer
 	private:
 		int									_fdSocket;
 		int									_port;
-		
-		/*
-		** Helpers
-		** Setam as configuraçoes do FD para:
-		** 1 - Não Bloqueante (O_NONBLOCK)
-		** 2 - Fechar ao ser herdado por um processo filho (FD_CLOEXEC)
-		** 3 - Poder ser reautilizado após uma conexão fechar (SO_REUSEADDR)
-		*/
-		bool	setCloexec(int);
-		bool	setNonBlocking(int);
-		bool	setReuseAddr(int);
 
 		SocketServer();
 		SocketServer(const SocketServer&);
 		SocketServer&	operator=(const SocketServer&);
-
+ 
 	public:
 		~SocketServer();
 		SocketServer(int port);
@@ -50,8 +39,8 @@ class SocketServer
 		*/
 		void	initSocket();
 
-		int										getFdSocket() const;
-		int										getPortSocket() const;
+		int		getFdSocket() const;
+		int		getPortSocket() const;
 };
 
 #endif
