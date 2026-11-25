@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 19:51:37 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/21 12:15:36 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/21 20:25:09 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ class Parser {
 		std::vector<Token> _tokens;
 		std::size_t _position;
 
-		// void parseServer(Config& config);
-		// void parseLocation(ServerConfig& server);
+		void parseServer(Config& config);
+		void parseLocation(ServerConfig& server);
 
-		// void parseServerDirective(ServerConfig& server, const std::string& directive);
-		// void parseLocationDirective(LocationConfig& location, const std::string& directive);
+		void parseServerDirective(ServerConfig& server, const std::string& directive, const std::vector<std::string>& arguments);
+		void parseLocationDirective(LocationConfig& location, const std::string& directive, const std::vector<std::string>& arguments);
 
 		std::vector<std::string> readArguments();
 
@@ -45,7 +45,7 @@ class Parser {
 		Parser();
 		Parser(const std::vector<Token>& tokens);
 
-		// Config parse();
+		Config parse();
 };
 
 #endif
