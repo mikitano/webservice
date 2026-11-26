@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/21 10:51:44 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/26 02:14:43 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/26 16:22:05 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ Config Parser::parse()
 	{
 		if (peek().getType() != WORD || peek().getValue() != "server")
 			error("Expected 'server'", peek().getLine());
+		
+		std::size_t serverLine = peek().getLine();
 		advance();
 		ServerConfig server;
 		parseServer(server);
@@ -144,7 +146,7 @@ Config Parser::parse()
 		for (std::size_t i = 0; i < cServers.size(); i++)
 		{
 			if (cServers[i].getPort() == server.getPort())
-				error("Duplicate server port", peek().getLine());
+				error("Duplicate server port", serverLine);
 		}
 		config.addServer(server);
 	}
