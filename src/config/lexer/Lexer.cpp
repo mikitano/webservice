@@ -6,7 +6,7 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/14 12:16:50 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/14 21:29:00 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/25 00:48:20 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void Lexer::handleQuote(const std::string& content, std::size_t& i)
 
 	_tokenLine = _line;
 	i++;
-
 	while (i < content.size() && content[i] != quote)
 	{
 		if (content[i] == '\n')
@@ -88,7 +87,6 @@ void Lexer::handleQuote(const std::string& content, std::size_t& i)
 		_currentToken += content[i];
 		i++;
 	}
-
 	if (i >= content.size())
 		throw std::runtime_error("Lexer error: unclosed quote");
 
@@ -99,7 +97,6 @@ void Lexer::handleQuote(const std::string& content, std::size_t& i)
 	if (i < content.size())
 	{
 		char next = content[i];
-
 		if (next != ' ' && next != '\t' && next != '\r' &&
 			next != '\v' && next != '\f' && next != '\n' &&
 			next != '#' && next != '{' && next != '}' &&
@@ -112,7 +109,6 @@ void Lexer::handleQuote(const std::string& content, std::size_t& i)
 void Lexer::handleComment(const std::string& content, std::size_t& i)
 {
 	flushToken();
-
 	while (i < content.size() && content[i] != '\n')
 		i++;
 }
@@ -120,7 +116,6 @@ void Lexer::handleComment(const std::string& content, std::size_t& i)
 void Lexer::handleSpecial(char c)
 {
 	flushToken();
-
 	if (c == '{')
 		_tokens.push_back(Token(LBRACE, "{", _line));
 	else if (c == '}')
@@ -134,7 +129,6 @@ void Lexer::handleSpecial(char c)
 std::vector<Token> Lexer::tokenize(const std::string& content)
 {
 	std::size_t i = 0;
-
 	_tokens.clear();
 	_currentToken.clear();
 	_line = 1;
@@ -143,7 +137,6 @@ std::vector<Token> Lexer::tokenize(const std::string& content)
 	while (i < content.size())
 	{
 		char c = content[i];
-
 		if (c == ' ' || c == '\t' || c == '\r' ||
 			c == '\v' || c == '\f')
 		{

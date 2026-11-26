@@ -6,13 +6,41 @@
 /*   By: mkitano <mkitano@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/21 10:51:44 by mkitano           #+#    #+#             */
-/*   Updated: 2026/11/24 18:39:49 by mkitano          ###   ########.fr       */
+/*   Updated: 2026/11/26 02:14:43 by mkitano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config/parser/Parser.hpp"
 #include <stdexcept>
 #include <sstream>
+
+void Parser::parseServer(ServerConfig& server)
+{
+	expect(LBRACE, "'{' after server");
+	while (hasNext() && peek().getType() != RBRACE)
+	{
+		if (peek().getType() != WORD)
+			error("Expected a directive inside server", peek().getLine());
+		std::string directive = peek().getValue();
+		advance();
+
+		if (directive == "location")
+			parseLocation(server);
+		else
+		{
+			std::vector<std::string> arguments = readArguments();
+			parseServerDirective(server, directive, arguments);
+		}
+	}
+	expect(RBRACE, "'}' to close server");
+}
+
+void Parser::parseLocation(ServerConfig& server)
+{
+	LocationConfig location;
+	// Interpretar a location...
+	server.addLocation(location);
+}
 
 std::vector<std::string> Parser::readArguments()
 {
@@ -23,8 +51,7 @@ std::vector<std::string> Parser::readArguments()
 		if (token.getType() == SEMICOLON)
 		{
 			if (arguments.empty())
-				error("Directive requires at least one argument",
-					  token.getLine());
+				error("Directive requires at least one argument", token.getLine());
 			advance();
 			return arguments;
 		}
@@ -108,9 +135,7 @@ Config Parser::parse()
 	while (hasNext())
 	{
 		if (peek().getType() != WORD || peek().getValue() != "server")
-		{
 			error("Expected 'server'", peek().getLine());
-		}
 		advance();
 		ServerConfig server;
 		parseServer(server);
@@ -119,9 +144,7 @@ Config Parser::parse()
 		for (std::size_t i = 0; i < cServers.size(); i++)
 		{
 			if (cServers[i].getPort() == server.getPort())
-			{
 				error("Duplicate server port", peek().getLine());
-			}
 		}
 		config.addServer(server);
 	}
